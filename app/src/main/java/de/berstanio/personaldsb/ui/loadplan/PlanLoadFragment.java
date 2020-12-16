@@ -23,6 +23,7 @@ import de.berstanio.ghgparser.CoreCourse;
 import de.berstanio.ghgparser.Course;
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.ghgparser.GHGParser;
+import de.berstanio.ghgparser.JahresStundenPlan;
 import de.berstanio.ghgparser.User;
 import de.berstanio.personaldsb.ItemSelectedListener;
 import de.berstanio.personaldsb.MainActivity;
@@ -34,11 +35,6 @@ public class PlanLoadFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_readplan, container, false);
-
-        if (GHGParser.getJahresStundenPlan() == null){
-            Message message = MainActivity.mainActivity.handler.obtainMessage(0, "Kein Fehlercode verfügbar!");
-            message.sendToTarget();
-        }
 
         Spinner year = root.findViewById(R.id.year);
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(root.getContext(), R.layout.spinner_center, new String[]{"Wähle deinen Jahrgang!","11","12"});
@@ -52,9 +48,13 @@ public class PlanLoadFragment extends Fragment {
                     Thread thread = new Thread(){
                         @Override
                         public void run() {
+                            int year = Integer.parseInt(yearAdapter.getItem(position));
+
+
+                            JahresStundenPlan jahresStundenPlan;
                             try {
-                                GHGParser.setYear(Integer.parseInt(yearAdapter.getItem(position)));
-                            } catch (DSBNotLoadableException | IOException e) {
+                                 jahresStundenPlan = PersonalDSBLib.getJahresStundenPlan(year);
+                            } catch (IOException | ClassNotFoundException e) {
                                 e.printStackTrace();
                                 StringWriter sw = new StringWriter();
                                 PrintWriter pw = new PrintWriter(sw);
@@ -63,8 +63,7 @@ public class PlanLoadFragment extends Fragment {
                                 message.sendToTarget();
                                 return;
                             }
-                            ArrayList<CoreCourse> remaining = (ArrayList<CoreCourse>) GHGParser.getJahresStundenPlan().getCoreCourses().clone();
-
+                            ArrayList<CoreCourse> remaining = (ArrayList<CoreCourse>) jahresStundenPlan.getCoreCourses().clone();
                             CoreCourse coreCourseEmpty = new CoreCourse();
                             Course emtpy = new Course();
                             emtpy.setCourseName("Leer");
@@ -72,7 +71,7 @@ public class PlanLoadFragment extends Fragment {
 
                             Spinner german = root.findViewById(R.id.deutschkurse);
                             List<CoreCourse> germanCourses = new ArrayList<>();
-                            for (CoreCourse course : GHGParser.getJahresStundenPlan().getCoreCourses()) {
+                            for (CoreCourse course : jahresStundenPlan.getCoreCourses()) {
                                 if (course.toString().contains("LKDE") || course.toString().contains("gkde")) {
                                     germanCourses.add(course);
                                 }
@@ -91,7 +90,7 @@ public class PlanLoadFragment extends Fragment {
 
                             Spinner math = root.findViewById(R.id.mathekurse);
                             List<CoreCourse> mathCourses = new ArrayList<>();
-                            for (CoreCourse course : GHGParser.getJahresStundenPlan().getCoreCourses()) {
+                            for (CoreCourse course : jahresStundenPlan.getCoreCourses()) {
                                 if (course.toString().contains("LKMA") || course.toString().contains("gkma")) {
                                     mathCourses.add(course);
                                 }
@@ -110,7 +109,7 @@ public class PlanLoadFragment extends Fragment {
 
                             Spinner english = root.findViewById(R.id.englishkurse);
                             List<CoreCourse> englishCourses = new ArrayList<>();
-                            for (CoreCourse course : GHGParser.getJahresStundenPlan().getCoreCourses()) {
+                            for (CoreCourse course : jahresStundenPlan.getCoreCourses()) {
                                 if (course.toString().contains("LKEN") || course.toString().contains("gken")
                                         || course.toString().contains("LKFR") || course.toString().contains("gkfr")
                                         || course.toString().contains("LKIT") || course.toString().contains("gkit")) {
@@ -142,7 +141,7 @@ public class PlanLoadFragment extends Fragment {
                                     }
                                 }
 
-                                User user = new User(coreCourses);
+                                User user = new User(coreCourses, year);
                                 PersonalDSBLib.setUser(user);
 
                                 MainActivity.mainActivity.navController.navigate(R.id.nav_thisweek);

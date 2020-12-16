@@ -102,12 +102,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         this.navController = navController;
-
+        SharedPreferences sharedPreferences = getSharedPreferences("darkmode", Context.MODE_PRIVATE);
         Thread thread = new Thread(){
             @Override
             public void run() {
                 try {
-                    PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getFilesDir());
+                    boolean externServer = sharedPreferences.getBoolean("ExternServer", true);
+                    PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getFilesDir(), externServer);
                 } catch (IOException | DSBNotLoadableException e) {
                     e.printStackTrace();
                     StringWriter sw = new StringWriter();
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         thread.start();
-        SharedPreferences sharedPreferences = getSharedPreferences("darkmode", Context.MODE_PRIVATE);
+
         Thread night = new Thread(){
             @Override
             public void run() {

@@ -4,33 +4,65 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.ghgparser.GHGParser;
+import de.berstanio.ghgparser.JahresStundenPlan;
+import de.berstanio.ghgparser.Plan;
 import de.berstanio.ghgparser.User;
 
 public class PersonalDSBLib {
 
     private static User user = null;
     private static boolean isLoading = true;
+    private static boolean useExternServer = true;
 
-    public static void init(InputStream rawHTML, File baseDir) throws IOException, DSBNotLoadableException {
-        try {
-            GHGParser.init(rawHTML, baseDir);
-        }catch (Exception e){
+    public static void init(InputStream rawHTML, File baseDir, boolean useExternServer) throws IOException, DSBNotLoadableException {
+        setUseExternServer(useExternServer);
+        if (!useExternServer) {
+            try {
+                GHGParser.init(rawHTML, baseDir);
+            } catch (Exception e) {
+                isLoading = false;
+                throw e;
+            }
+            if (GHGParser.getUsers().size() != 0) {
+                user = GHGParser.getUsers().get(0);
+            }
             isLoading = false;
-            throw e;
+        }else {
+            user = User.loadUsers().get(0);
+            isLoading = false;
         }
-        if (GHGParser.getUsers().size() != 0){
-            user = GHGParser.getUsers().get(0);
-        }
-        isLoading = false;
     }
 
-    public static String generateHTMLFile(int week) throws DSBNotLoadableException {
+    public static JahresStundenPlan getJahresStundenPlan(int year) throws IOException, ClassNotFoundException {
+        if (!isUseExternServer()){
+           return GHGParser.getJahresStundenPlan(year);
+        }else {
+            return (JahresStundenPlan) Client.sendToServer(0, year);
+        }
+    }
+
+    public static JahresStundenPlan getJahresStundenPlan() throws IOException, ClassNotFoundException {
+        return getJahresStundenPlan(getUser().getYear());
+    }
+
+    public static void reloadPlans(){
+        if (!isUseExternServer()){
+            Arrays.stream(GHGParser.getBasedir().listFiles()).filter(File::isFile).filter(file -> file.getName().contains("plan")).forEach(File::delete);
+        }
+    }
+
+    public static String generateHTMLFile(int week) throws DSBNotLoadableException, IOException, ClassNotFoundException {
         User tmp = getUser();
         if (tmp == null) return GHGParser.getRawHtml();
-        return GHGParser.generateHtmlFile(tmp, week);
+        if (!isUseExternServer()) {
+            return GHGParser.generateHtmlFile(tmp, week);
+        }else {
+            return (String) Client.sendToServer(week, tmp);
+        }
     }
 
 
@@ -51,5 +83,13 @@ public class PersonalDSBLib {
 
         GHGParser.getUsers().add(user);
         PersonalDSBLib.user = user;
+    }
+
+    public static boolean isUseExternServer() {
+        return useExternServer;
+    }
+
+    public static void setUseExternServer(boolean useExternServer) {
+        PersonalDSBLib.useExternServer = useExternServer;
     }
 }
