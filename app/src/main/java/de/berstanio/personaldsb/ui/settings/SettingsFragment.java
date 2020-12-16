@@ -63,16 +63,22 @@ public class SettingsFragment extends Fragment {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("ExternServer", isChecked);
             editor.apply();
-            try {
-                PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), MainActivity.mainActivity.getFilesDir(), externServer);
-            } catch (IOException | DSBNotLoadableException e) {
-                e.printStackTrace();
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-                e.printStackTrace(pw);
-                Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
-                message.sendToTarget();
-            }
+            Thread thread = new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), MainActivity.mainActivity.getFilesDir(), isChecked);
+                    } catch (IOException | DSBNotLoadableException e) {
+                        e.printStackTrace();
+                        StringWriter sw = new StringWriter();
+                        PrintWriter pw = new PrintWriter(sw);
+                        e.printStackTrace(pw);
+                        Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
+                        message.sendToTarget();
+                    }
+                }
+            };
+            thread.start();
         });
 
         Switch dateSwitch = root.findViewById(R.id.dateSwitch);
