@@ -20,6 +20,13 @@ public class PersonalDSBLib {
 
     public static void init(InputStream rawHTML, File baseDir, boolean useExternServer) throws IOException, DSBNotLoadableException {
         setUseExternServer(useExternServer);
+        try {
+            if (useExternServer){
+                Client.sendToServer(-1);
+            }
+        }catch (Exception e){
+            setUseExternServer(false);
+        }
         if (!useExternServer) {
             try {
                 GHGParser.init(rawHTML, baseDir);
@@ -27,14 +34,16 @@ public class PersonalDSBLib {
                 isLoading = false;
                 throw e;
             }
-            if (GHGParser.getUsers().size() != 0) {
-                user = GHGParser.getUsers().get(0);
-            }
-            isLoading = false;
+
         }else {
-            user = User.loadUsers().get(0);
-            isLoading = false;
+            GHGParser.setBasedir(baseDir);
+            ArrayList<User> users = User.loadUsers();
+            GHGParser.setUsers(users);
         }
+        if (GHGParser.getUsers().size() != 0) {
+            user = GHGParser.getUsers().get(0);
+        }
+        isLoading = false;
     }
 
     public static JahresStundenPlan getJahresStundenPlan(int year) throws IOException, ClassNotFoundException {

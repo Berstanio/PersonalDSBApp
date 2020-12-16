@@ -13,7 +13,11 @@ public class Client {
         Socket socket = new Socket(InetAddress.getByName("62.75.210.181"), 21589);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         for (Object o : objects) {
-            objectOutputStream.writeObject(o);
+            if (o instanceof Integer){
+                objectOutputStream.writeInt((int)o);
+            }else {
+                objectOutputStream.writeObject(o);
+            }
             objectOutputStream.flush();
         }
         ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
