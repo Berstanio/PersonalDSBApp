@@ -21,10 +21,10 @@ public class PersonalDSBLib {
             isLoading = false;
             throw e;
         }
-        isLoading = false;
         if (GHGParser.getUsers().size() != 0){
             user = GHGParser.getUsers().get(0);
         }
+        isLoading = false;
     }
 
     public static String generateHTMLFile(int week) throws DSBNotLoadableException {
