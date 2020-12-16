@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PersonalDSB</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">PersonalDSB</string>
+    <string name="nav_header_subtitle">https://github.com/Berstanio/GHGSEK2DSBParser</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">About</string>
+
+    <string name="menu_home">Diese Woche</string>
+    <string name="menu_gallery">Nächste Woche</string>
+    <string name="menu_freerooms">Freie Räume</string>
+    <string name="menu_slideshow">Stundenplan einlesen</string>
+    <string name="menu_settings">Einstellungen</string>
+
+</resources>

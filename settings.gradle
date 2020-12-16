@@ -1,0 +1,4 @@
+include ':PersonalDSBLib'
+include ':app'
+rootProject.name = "PersonalDSB"
+include ':PersonalDSBIOS'
