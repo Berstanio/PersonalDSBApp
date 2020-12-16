@@ -23,7 +23,7 @@ public class PersonalDSBLib {
         }
         isLoading = false;
         if (GHGParser.getUsers().size() != 0){
-            setUser(GHGParser.getUsers().get(0));
+            user = GHGParser.getUsers().get(0);
         }
     }
 
