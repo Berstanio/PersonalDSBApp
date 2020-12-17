@@ -86,9 +86,17 @@ public class PlanLoadFragment extends Fragment {
                                                         .collect(Collectors.toList());
                                                 PopupMenu popupMenu = new PopupMenu(MainActivity.mainActivity, v);
                                                 coreCourseList.forEach(coreCourse -> popupMenu.getMenu().add(coreCourse.getCourseName() + " " + coreCourse.getTeacher()));
+                                                if (!button.getText().toString().equalsIgnoreCase("LHGW12 MAFF")){
+                                                    popupMenu.getMenu().add("FREI");
+                                                }
                                                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                                     @Override
                                                     public boolean onMenuItemClick(MenuItem item) {
+                                                        if (item.getTitle().toString().equalsIgnoreCase("FREI")){
+                                                            button.setTextColor(Color.TRANSPARENT);
+                                                            button.setText("LHGW12 MAFF");
+                                                            // TODO: 17.12.20 Für anderen Button auch
+                                                        }
                                                         String[] menuItem = item.getTitle().toString().split(" ");
                                                         CoreCourse clicked = coreCourseList.stream().filter(coreCourse -> coreCourse.getTeacher().equalsIgnoreCase(menuItem[1])
                                                                         && coreCourse.getCourseName().equalsIgnoreCase(menuItem[0])).findAny().get();
