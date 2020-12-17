@@ -63,7 +63,7 @@ public class PlanLoadFragment extends Fragment {
                                 message.sendToTarget();
                                 return;
                             }
-                            ArrayList<CoreCourse> remaining = (ArrayList<CoreCourse>) jahresStundenPlan.getCoreCourses().clone();
+                            /*ArrayList<CoreCourse> remaining = (ArrayList<CoreCourse>) jahresStundenPlan.getCoreCourses().clone();
                             CoreCourse coreCourseEmpty = new CoreCourse();
                             Course emtpy = new Course();
                             emtpy.setCourseName("Leer");
@@ -145,7 +145,7 @@ public class PlanLoadFragment extends Fragment {
                                 PersonalDSBLib.setUser(user);
 
                                 MainActivity.mainActivity.navController.navigate(R.id.nav_thisweek);
-                            });
+                            });*/
                         }
                     };
                     thread.start();
