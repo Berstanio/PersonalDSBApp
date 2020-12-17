@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.loadplan.PlanLoadFragment">
-
     <TextView
         android:id="@+id/yearText"
         android:layout_width="wrap_content"
@@ -91,7 +90,7 @@
 
             <Button
                 android:id="@+id/buttonFR1"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,7 +110,7 @@
 
             <Button
                 android:id="@+id/buttonMO2"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,7 +119,7 @@
 
             <Button
                 android:id="@+id/buttonTU2"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,7 +128,7 @@
 
             <Button
                 android:id="@+id/buttonWE2"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,7 +137,7 @@
 
             <Button
                 android:id="@+id/buttonTH2"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -147,7 +146,7 @@
 
             <Button
                 android:id="@+id/buttonFR2"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -167,7 +166,7 @@
 
             <Button
                 android:id="@+id/buttonMO3"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -176,7 +175,7 @@
 
             <Button
                 android:id="@+id/buttonTU3"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -185,7 +184,7 @@
 
             <Button
                 android:id="@+id/buttonWE3"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,7 +193,7 @@
 
             <Button
                 android:id="@+id/buttonTH3"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -203,7 +202,7 @@
 
             <Button
                 android:id="@+id/buttonFR3"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +222,7 @@
 
             <Button
                 android:id="@+id/buttonMO4"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -232,7 +231,7 @@
 
             <Button
                 android:id="@+id/buttonTU4"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -241,7 +240,7 @@
 
             <Button
                 android:id="@+id/buttonWE4"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -250,7 +249,7 @@
 
             <Button
                 android:id="@+id/buttonTH4"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -259,7 +258,7 @@
 
             <Button
                 android:id="@+id/buttonFR4"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -279,7 +278,7 @@
 
             <Button
                 android:id="@+id/buttonMO5"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -288,7 +287,7 @@
 
             <Button
                 android:id="@+id/buttonTU5"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -297,7 +296,7 @@
 
             <Button
                 android:id="@+id/buttonWE5"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -306,7 +305,7 @@
 
             <Button
                 android:id="@+id/buttonTH5"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -315,7 +314,7 @@
 
             <Button
                 android:id="@+id/buttonFR5"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -335,7 +334,7 @@
 
             <Button
                 android:id="@+id/buttonMO6"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -344,7 +343,7 @@
 
             <Button
                 android:id="@+id/buttonTU6"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -353,7 +352,7 @@
 
             <Button
                 android:id="@+id/buttonWE6"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -362,7 +361,7 @@
 
             <Button
                 android:id="@+id/buttonTH6"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -371,7 +370,7 @@
 
             <Button
                 android:id="@+id/buttonFR6"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -391,7 +390,7 @@
 
             <Button
                 android:id="@+id/buttonMO7"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -400,7 +399,7 @@
 
             <Button
                 android:id="@+id/buttonTU7"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -409,7 +408,7 @@
 
             <Button
                 android:id="@+id/buttonWE7"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -418,7 +417,7 @@
 
             <Button
                 android:id="@+id/buttonTH7"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -427,7 +426,7 @@
 
             <Button
                 android:id="@+id/buttonFR7"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -447,7 +446,7 @@
 
             <Button
                 android:id="@+id/buttonMO8"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -456,7 +455,7 @@
 
             <Button
                 android:id="@+id/buttonTU8"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -465,7 +464,7 @@
 
             <Button
                 android:id="@+id/buttonWE8"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -474,7 +473,7 @@
 
             <Button
                 android:id="@+id/buttonTH8"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -483,7 +482,7 @@
 
             <Button
                 android:id="@+id/buttonFR8"
-                                android:background="@drawable/my_button_bg"
+                android:background="@drawable/my_button_bg"
                 app:backgroundTint="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -494,4 +493,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

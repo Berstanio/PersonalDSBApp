@@ -18,10 +18,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.berstanio.ghgparser.CoreCourse;
 import de.berstanio.ghgparser.Course;
 import de.berstanio.ghgparser.DSBNotLoadableException;
+import de.berstanio.ghgparser.DayOfWeek;
 import de.berstanio.ghgparser.GHGParser;
 import de.berstanio.ghgparser.JahresStundenPlan;
 import de.berstanio.ghgparser.User;
@@ -35,6 +37,8 @@ public class PlanLoadFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_readplan, container, false);
+
+
 
         Spinner year = root.findViewById(R.id.year);
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(root.getContext(), R.layout.spinner_center, new String[]{"Wähle deinen Jahrgang!","11","12"});
@@ -54,6 +58,28 @@ public class PlanLoadFragment extends Fragment {
                             JahresStundenPlan jahresStundenPlan;
                             try {
                                  jahresStundenPlan = PersonalDSBLib.getJahresStundenPlan(year);
+
+                                for (int i = 1; i <= 5; i++) {
+                                    String s = DayOfWeek.of(i).name().substring(0, 2);
+                                    for (int j = 1; j <= 8; j++) {
+                                        String id = s + j;
+                                        Button button = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("button" + id,"id", MainActivity.mainActivity.getPackageName()));
+                                        int finalI = i;
+                                        int finalJ = j;
+                                        button.setOnClickListener(new View.OnClickListener() {
+                                            private DayOfWeek day = DayOfWeek.of(finalI);
+                                            private int lesson = finalJ;
+                                            @Override
+                                            public void onClick(View v) {
+                                                List<CoreCourse> coreCourseList = jahresStundenPlan.getCoreCourses().stream()
+                                                        .filter(coreCourse -> coreCourse.getCourses().stream()
+                                                        .anyMatch(course -> course.getDay().equals(day) && course.getLesson() == lesson))
+                                                        .collect(Collectors.toList());
+
+                                            }
+                                        });
+                                    }
+                                }
                             } catch (IOException | ClassNotFoundException e) {
                                 e.printStackTrace();
                                 StringWriter sw = new StringWriter();
@@ -158,5 +184,9 @@ public class PlanLoadFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    public void onButtonClick(View view){
+
     }
 }
