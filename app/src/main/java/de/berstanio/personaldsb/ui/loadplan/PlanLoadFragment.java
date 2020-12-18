@@ -56,6 +56,21 @@ public class PlanLoadFragment extends Fragment {
                     Thread thread = new Thread(){
                         @Override
                         public void run() {
+
+                            int color = 0;
+                            int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                            switch (nightModeFlags) {
+                                case Configuration.UI_MODE_NIGHT_YES:
+
+                                case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                                    color = Color.WHITE;
+                                    break;
+
+                                case Configuration.UI_MODE_NIGHT_NO:
+                                    color = Color.BLACK;
+                                    break;
+                            }
+
                             int year = Integer.parseInt(yearAdapter.getItem(position));
 
 
@@ -68,16 +83,45 @@ public class PlanLoadFragment extends Fragment {
                                     for (int j = 1; j <= 8; j++) {
                                         String id = s + j;
                                         Button button = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("button" + id,"id", MainActivity.mainActivity.getPackageName()));
-                                        MainActivity.mainActivity.runOnUiThread(() -> {
-                                            button.setTextSize(10);
-                                            button.setTextColor(Color.TRANSPARENT);
-                                            button.setText("LHGW12 MAFF");
-                                        });
+                                        CoreCourse coreCourseTmp = null;
+
                                         int finalI = i;
                                         int finalJ = j;
+                                        int finalColor = color;
+
+                                        if (PersonalDSBLib.getUser() != null && PersonalDSBLib.getUser().getYear() == year){
+                                            List<CoreCourse> coreCourseList = PersonalDSBLib.getUser().getCoreCourses().stream()
+                                                    .filter(coreCourse -> coreCourse.getCourses().stream()
+                                                            .anyMatch(course -> course.getDay().equals(DayOfWeek.of(finalI)) && course.getLesson() == finalJ))
+                                                    .collect(Collectors.toList());
+                                            if (coreCourseList.size() != 0){
+                                                coreCourseTmp = coreCourseList.get(0);
+                                            }
+                                        }
+
+
+                                        CoreCourse finalCoreCourseTmp = coreCourseTmp;
+                                        MainActivity.mainActivity.runOnUiThread(() -> {
+                                            if (finalCoreCourseTmp == null) {
+                                                button.setTextSize(10);
+                                                button.setTextColor(Color.TRANSPARENT);
+                                                button.setText("LHGW12 MAFF");
+                                            }else {
+                                                String string = finalCoreCourseTmp.getCourseName() + " " + finalCoreCourseTmp.getTeacher();
+                                                if (string.contains("/")){
+                                                    button.setTextSize(9);
+                                                }else {
+                                                    button.setTextSize(10);
+                                                }
+                                                button.setTextColor(finalColor);
+                                                button.setText(string);
+                                            }
+                                        });
+
                                         button.setOnClickListener(new View.OnClickListener() {
                                             private DayOfWeek day = DayOfWeek.of(finalI);
                                             private int lesson = finalJ;
+                                            private CoreCourse coreCourse = finalCoreCourseTmp;
                                             @Override
                                             public void onClick(View v) {
                                                 List<CoreCourse> coreCourseList = jahresStundenPlan.getCoreCourses().stream()
@@ -93,13 +137,18 @@ public class PlanLoadFragment extends Fragment {
                                                     @Override
                                                     public boolean onMenuItemClick(MenuItem item) {
                                                         if (item.getTitle().toString().equalsIgnoreCase("FREI")){
-                                                            button.setTextColor(Color.TRANSPARENT);
-                                                            button.setText("LHGW12 MAFF");
-                                                            // TODO: 17.12.20 Für anderen Button auch
+                                                            coreCourse.getCourses().forEach(course -> {
+                                                                        String s = course.getDay().name().substring(0, 2) + course.getLesson();
+                                                                        Button button = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("button" + s, "id", MainActivity.mainActivity.getPackageName()));
+                                                                        button.setTextColor(Color.TRANSPARENT);
+                                                                        button.setText("LHGW12 MAFF");
+                                                                    });
+                                                            return true;
                                                         }
                                                         String[] menuItem = item.getTitle().toString().split(" ");
                                                         CoreCourse clicked = coreCourseList.stream().filter(coreCourse -> coreCourse.getTeacher().equalsIgnoreCase(menuItem[1])
                                                                         && coreCourse.getCourseName().equalsIgnoreCase(menuItem[0])).findAny().get();
+                                                        coreCourse = clicked;
                                                         clicked.getCourses().forEach(course -> {
                                                             String s = course.getDay().name().substring(0, 2) + course.getLesson();
                                                             Button button = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("button" + s,"id", MainActivity.mainActivity.getPackageName()));
@@ -110,25 +159,9 @@ public class PlanLoadFragment extends Fragment {
                                                             }else {
                                                                 button.setTextSize(10);
                                                             }
-                                                            int nightModeFlags =
-                                                                    getContext().getResources().getConfiguration().uiMode &
-                                                                            Configuration.UI_MODE_NIGHT_MASK;
-                                                            switch (nightModeFlags) {
-                                                                case Configuration.UI_MODE_NIGHT_YES:
-                                                                    button.setTextColor(Color.WHITE);
-                                                                    break;
-
-                                                                case Configuration.UI_MODE_NIGHT_NO:
-                                                                    button.setTextColor(Color.BLACK);
-                                                                    break;
-
-                                                                case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                                                                    button.setTextColor(Color.WHITE);
-                                                                    break;
-                                                            }
-
+                                                            button.setTextColor(finalColor);
                                                         });
-                                                        return false;
+                                                        return true;
                                                     }
                                                 });
                                                 popupMenu.show();
@@ -145,8 +178,6 @@ public class PlanLoadFragment extends Fragment {
                                 message.sendToTarget();
                                 return;
                             }
-                            // TODO: 17.12.20 Möglichkeit Kurse zu reseten
-                            // TODO: 17.12.20 Schon eingetragene Pläne Laden und leicht editirbar machen
                             Button button = root.findViewById(R.id.createUser);
                             button.setOnClickListener(v -> {
                                 ArrayList<CoreCourse> coreCourses = new ArrayList<>();
@@ -186,9 +217,5 @@ public class PlanLoadFragment extends Fragment {
             }
         });
         return root;
-    }
-
-    public void onButtonClick(View view){
-
     }
 }
