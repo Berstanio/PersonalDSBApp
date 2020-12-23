@@ -1,7 +1,11 @@
 package de.berstanio.personaldsb.ui.settings;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -16,15 +20,16 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
 import de.berstanio.ghgparser.DSBNotLoadableException;
-import de.berstanio.ghgparser.GHGParser;
 import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
 import de.berstanio.personaldsblib.PersonalDSBLib;
@@ -48,6 +53,32 @@ public class SettingsFragment extends Fragment {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("DarkMode", isChecked);
             editor.apply();
+        });
+
+        Switch externSwitch = root.findViewById(R.id.externServer);
+        boolean externServer = sharedPreferences.getBoolean("ExternServer", true);
+        externSwitch.setChecked(externServer);
+
+        externSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("ExternServer", isChecked);
+            editor.apply();
+            Thread thread = new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), MainActivity.mainActivity.getFilesDir(), isChecked);
+                    } catch (IOException | DSBNotLoadableException e) {
+                        e.printStackTrace();
+                        StringWriter sw = new StringWriter();
+                        PrintWriter pw = new PrintWriter(sw);
+                        e.printStackTrace(pw);
+                        Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
+                        message.sendToTarget();
+                    }
+                }
+            };
+            thread.start();
         });
 
         Switch dateSwitch = root.findViewById(R.id.dateSwitch);
@@ -78,22 +109,7 @@ public class SettingsFragment extends Fragment {
 
         Button deletePlans = root.findViewById(R.id.buttonReload);
         deletePlans.setOnClickListener(v -> {
-            Thread thread = new Thread(){
-                @Override
-                public void run() {
-                    try {
-                        GHGParser.setYear(GHGParser.getYear());
-                    } catch (DSBNotLoadableException | IOException e) {
-                        e.printStackTrace();
-                        StringWriter sw = new StringWriter();
-                        PrintWriter pw = new PrintWriter(sw);
-                        e.printStackTrace(pw);
-                        Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
-                        message.sendToTarget();
-                    }
-                }
-            };
-            thread.start();
+            PersonalDSBLib.reloadPlans();
         });
 
         Button deleteUsers = root.findViewById(R.id.deleteUser);

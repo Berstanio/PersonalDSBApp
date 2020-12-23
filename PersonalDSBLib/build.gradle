@@ -12,5 +12,5 @@ java {
 }
 
 dependencies {
-    implementation 'de.berstanio:GHGSEK2DSBParser:1.0'
+    implementation 'de.berstanio:GHGSEK2DSBParser:1.1'
 }

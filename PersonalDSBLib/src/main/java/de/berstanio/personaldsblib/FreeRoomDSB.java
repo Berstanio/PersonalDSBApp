@@ -105,7 +105,10 @@ public class FreeRoomDSB {
 
     }
 
-    public static String refresh(InputStream rawHTML) throws IOException, JSONException {
+    public static String refresh(InputStream rawHTML) throws IOException, JSONException, ClassNotFoundException {
+        if (PersonalDSBLib.isUseExternServer()){
+            return (String) Client.sendToServer(-1);
+        }
         String token = getToken();
         HashMap<DayOfWeek, ArrayList<String>> allMap = getFreeLessons(download("00027", token));
         for (int i = 28; i <= 46; i++) {

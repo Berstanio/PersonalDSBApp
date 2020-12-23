@@ -37,7 +37,7 @@ public class FreeRoomsFragment extends Fragment {
                         webView.setWebViewClient(new WebViewClient());
                         webView.loadDataWithBaseURL(null, html, "text/HTML", "UTF-8", null);
                     });
-                } catch (IOException | JSONException e) {
+                } catch (IOException | JSONException | ClassNotFoundException e) {
                     e.printStackTrace();
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);

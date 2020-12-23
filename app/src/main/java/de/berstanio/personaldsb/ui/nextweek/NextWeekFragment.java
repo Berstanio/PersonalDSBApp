@@ -11,6 +11,7 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
@@ -37,7 +38,7 @@ public class NextWeekFragment extends Fragment {
                 try {
                     String s = PersonalDSBLib.generateHTMLFile(week);
                     MainActivity.mainActivity.runOnUiThread(() -> webView.loadDataWithBaseURL(null, s, "text/HTML", "UTF-8", null));
-                } catch (DSBNotLoadableException e) {
+                } catch (DSBNotLoadableException | IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);
