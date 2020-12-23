@@ -1,5 +1,6 @@
 package de.berstanio.personaldsb.ui.nextweek;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,6 +35,15 @@ public class NextWeekFragment extends Fragment {
         int week = calendar.get(Calendar.WEEK_OF_YEAR) + 1;
         WebView webView  = root.findViewById(R.id.nextweek);
         webView.setWebViewClient(new WebViewClient());
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            switch (nightModeFlags) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                    WebSettingsCompat.setForceDark(webView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                    break;
+            }
+        }
         Thread thread = new Thread(){
             @Override
             public void run() {
