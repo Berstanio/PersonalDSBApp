@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -57,20 +58,7 @@ public class PlanLoadFragment extends Fragment {
                         @Override
                         public void run() {
 
-                            int color = 0;
-                            int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-                            switch (nightModeFlags) {
-                                case Configuration.UI_MODE_NIGHT_YES:
-
-                                case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                                    color = Color.WHITE;
-                                    break;
-
-                                case Configuration.UI_MODE_NIGHT_NO:
-                                    color = Color.BLACK;
-                                    break;
-                            }
-
+                            int color = ((TextView)root.findViewById(R.id.yearText)).getCurrentTextColor();
                             int year = Integer.parseInt(yearAdapter.getItem(position));
 
 
@@ -87,7 +75,6 @@ public class PlanLoadFragment extends Fragment {
 
                                         int finalI = i;
                                         int finalJ = j;
-                                        int finalColor = color;
 
                                         if (PersonalDSBLib.getUser() != null && PersonalDSBLib.getUser().getYear() == year){
                                             List<CoreCourse> coreCourseList = PersonalDSBLib.getUser().getCoreCourses().stream()
@@ -113,7 +100,7 @@ public class PlanLoadFragment extends Fragment {
                                                 }else {
                                                     button.setTextSize(10);
                                                 }
-                                                button.setTextColor(finalColor);
+                                                button.setTextColor(color);
                                                 button.setText(string);
                                             }
                                         });
@@ -159,7 +146,7 @@ public class PlanLoadFragment extends Fragment {
                                                             }else {
                                                                 button.setTextSize(10);
                                                             }
-                                                            button.setTextColor(finalColor);
+                                                            button.setTextColor(color);
                                                         });
                                                         return true;
                                                     }
