@@ -3,6 +3,7 @@ package de.berstanio.personaldsb.ui.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,15 +42,14 @@ public class WebWidgetProvider extends AppWidgetProvider {
 
         Intent intent = new Intent(context, getClass());
         intent.setAction("onClick");
-        intent.putExtra("ids", appWidgetId);
 
         views.setOnClickPendingIntent(R.id.draw, PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
         Bundle options=appWidgetManager.getAppWidgetOptions(appWidgetId);
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
 
-        int maxHeight = (int) Math.round(options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) * (metrics.densityDpi/160f));
-        int minWidth = (int) Math.round(options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) * (metrics.densityDpi/160f));
+        int maxHeight = Math.round(options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) * (metrics.densityDpi/160f));
+        int minWidth = Math.round(options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) * (metrics.densityDpi/160f));
 
         Paint paint = new Paint();
         paint.setAntiAlias(true);
@@ -124,8 +124,15 @@ public class WebWidgetProvider extends AppWidgetProvider {
             editor.apply();
 
             views.setImageViewBitmap(R.id.draw, newBitMap);
-            AppWidgetManager.getInstance(context).updateAppWidget(new int[]{intent.getIntExtra("ids", 0)}, views);
+
+            AppWidgetManager.getInstance(context).updateAppWidget(AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, WebWidgetProvider.class)), views);
         }
+    }
+
+    @Override
+    public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
+        super.onRestored(context, oldWidgetIds, newWidgetIds);
+        updateAppWidget(context, AppWidgetManager.getInstance(context), newWidgetIds[0]);
     }
 
     public String bitMapToString(Bitmap bitmap){
