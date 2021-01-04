@@ -22,7 +22,9 @@ public class PersonalDSBLib {
         setUseExternServer(useExternServer);
         try {
             if (useExternServer){
+                System.out.println("SenToServerStart");
                 Client.sendToServer(-1);
+                System.out.println("SenToServerEnd");
             }
         }catch (Exception e){
             setUseExternServer(false);
@@ -36,9 +38,11 @@ public class PersonalDSBLib {
             }
 
         }else {
+            System.out.println("LoadUserStart");
             GHGParser.setBasedir(baseDir);
             ArrayList<User> users = User.loadUsers();
             GHGParser.setUsers(users);
+            System.out.println("LoadUserEnd");
         }
         if (GHGParser.getUsers().size() != 0) {
             user = GHGParser.getUsers().get(0);
