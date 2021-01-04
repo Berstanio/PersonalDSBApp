@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
+import java.util.Locale;
 
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.personaldsb.MainActivity;
@@ -31,7 +32,7 @@ public class NextWeekFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_nextweek, container, false);
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(Locale.GERMANY);
         int week = calendar.get(Calendar.WEEK_OF_YEAR) + 1;
         WebView webView  = root.findViewById(R.id.nextweek);
         webView.setWebViewClient(new WebViewClient());

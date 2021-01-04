@@ -89,7 +89,7 @@ public class SettingsFragment extends Fragment {
             NavigationView navigationView = MainActivity.mainActivity.findViewById(R.id.nav_view);
             if (isChecked){
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
-                Calendar cal = Calendar.getInstance();
+                Calendar cal = Calendar.getInstance(Locale.GERMANY);
                 cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
 
                 navigationView.getMenu().getItem(0).setTitle(simpleDateFormat.format(cal.getTime()));
