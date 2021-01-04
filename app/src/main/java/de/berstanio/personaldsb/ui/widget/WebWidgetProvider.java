@@ -25,6 +25,7 @@ import android.widget.RemoteViews;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Locale;
 
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.ghgparser.User;
@@ -55,7 +56,7 @@ public class WebWidgetProvider extends AppWidgetProvider {
 
         CustomWebView webView = new CustomWebView(context);
 
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(Locale.GERMANY);
         int week = calendar.get(Calendar.WEEK_OF_YEAR);
         StringBuilder stringBuilder = new StringBuilder();
         Thread thread = new Thread(){
