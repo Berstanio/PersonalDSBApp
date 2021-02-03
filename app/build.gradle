@@ -9,7 +9,7 @@ android {
     signingConfigs {
         debug {
             //storeFile file('C:\\Users\\sebas\\Dropbox\\keystore.jks')
-            storeFile file('/home/berstanio/Dropbox/keystore.jks')
+            storeFile file('/home/berstanio/IdeaProjects/keystore.jks')
             storePassword 'Aidb2020!'
             keyAlias 'pdsb'
             keyPassword 'ImAs2019!'
@@ -21,11 +21,12 @@ android {
         applicationId "de.berstanio.personaldsb"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 8
-        versionName "1.6"
+        versionCode 10
+        versionName "1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {
@@ -49,7 +50,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.webkit:webkit:1.4.0'
-    implementation 'de.berstanio:GHGSEK2DSBParser:1.1'
+    compileOnly 'de.berstanio:GHGSEK2DSBParser:1.1'
     implementation project(":PersonalDSBLib")
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

@@ -43,7 +43,7 @@ moe {
 dependencies {
     // Compile with 'jar' files in the project's 'lib' directory
     compile fileTree(dir: 'lib', include: '*.jar')
-    implementation 'de.berstanio:GHGSEK2DSBParser:1.0'
+    implementation 'de.berstanio:GHGSEK2DSBParser:1.1'
     implementation project(":PersonalDSBLib")
 }
 
