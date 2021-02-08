@@ -8,8 +8,8 @@ repositories {
 android {
     signingConfigs {
         debug {
-            //storeFile file('C:\\Users\\sebas\\Dropbox\\keystore.jks')
-            storeFile file('/home/berstanio/IdeaProjects/keystore.jks')
+            storeFile file('C:\\Users\\sebas\\Dropbox\\keystore.jks')
+            //storeFile file('/home/berstanio/IdeaProjects/keystore.jks')
             storePassword 'Aidb2020!'
             keyAlias 'pdsb'
             keyPassword 'ImAs2019!'
