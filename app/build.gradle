@@ -8,19 +8,19 @@ repositories {
 android {
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\sebas\\Dropbox\\keystore.jks')
-            //storeFile file('/home/berstanio/IdeaProjects/keystore.jks')
+            //storeFile file('C:\\Users\\sebas\\Dropbox\\keystore.jks')
+            storeFile file('/home/berstanio/IdeaProjects/keystore.jks')
             storePassword 'Aidb2020!'
             keyAlias 'pdsb'
             keyPassword 'ImAs2019!'
         }
     }
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "de.berstanio.personaldsb"
         minSdkVersion 24
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 11
         versionName "2.0"
 
