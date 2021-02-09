@@ -51,14 +51,32 @@ public class FreeRoomDSB {
             ArrayList<String> strings = entry.getValue();
             for (int i = 0; i < 5; i++) {
                 StringBuilder stringBuilder = new StringBuilder(strings.get(i));
-                for (int j = 3; j < stringBuilder.length(); j += 4) {
-                    if ((j - 8) % 3 == 0){
-                        continue;
+                String identifier = dayOfWeek.name().substring(0, 2) + (i + 1);
+                for (int j = 3; j <= stringBuilder.length(); j += 4) {
+                    if (j% 3 == 0){
+                        if (j == stringBuilder.length()){
+                            s = s.replace(identifier + "C", stringBuilder.substring(j-3,j) + "<br>" + identifier + "C");
+                        }else {
+                            s = s.replace(identifier + "R", stringBuilder.substring(j-3,j) + "<br>" + identifier + "R");
+                        }
+                    }else if(j % 3 == 1){
+                        s = s.replace(identifier + "C", stringBuilder.substring(j-3,j) + "<br>" + identifier + "C");
+                    }else {
+                        s = s.replace(identifier + "L", stringBuilder.substring(j-3,j) + "<br>" + identifier + "L");
                     }
-                    stringBuilder.setCharAt(j, " ".charAt(0));
                 }
-
-                s = s.replace(dayOfWeek.name().substring(0, 2) + (i + 1), stringBuilder.toString().replaceAll(";", "<br>"));
+                s = s.replace("<br>" + identifier + "R", "")
+                        .replace("<br>" + identifier + "C", "")
+                        .replace("<br>" + identifier + "L", "");
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            DayOfWeek dayOfWeek = DayOfWeek.of(i + 1);
+            for (int j = 0; j < 8; j++) {
+                String identifier = dayOfWeek.name().substring(0, 2) + (j + 1);
+                s = s.replace(identifier + "R", "")
+                        .replace(identifier + "C", "")
+                        .replace(identifier + "L", "");
             }
         }
         return s;
@@ -69,7 +87,12 @@ public class FreeRoomDSB {
         Calendar calendar = Calendar.getInstance(Locale.GERMANY);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-        URL connectwat = new URL("https://light.dsbcontrol.de/DSBlightWebsite/Data/a7f2b46b-4d23-446e-8382-404d55c31f90/" + token + "/" + weekOfYear + "/r/r" + roomNumber + ".htm");
+        String week = weekOfYear + "";
+        if (week.length() == 1){
+            week = "0" + week;
+        }
+
+        URL connectwat = new URL("https://light.dsbcontrol.de/DSBlightWebsite/Data/a7f2b46b-4d23-446e-8382-404d55c31f90/" + token + "/" + week + "/r/r" + roomNumber + ".htm");
         HttpsURLConnection urlConnection = (HttpsURLConnection) connectwat.openConnection();
 
         urlConnection.connect();
@@ -161,7 +184,7 @@ public class FreeRoomDSB {
                 }
                 dayEnum = DayOfWeek.of(dayi+1);
                 String write;
-                if (day.attr("colspan").equals("6")){
+                if (!day.attr("colspan").equals("12")){
                     write = "";
                     j++;
                 }else if (day.getElementsByTag("tr").size() <= 1){

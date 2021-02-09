@@ -34,7 +34,7 @@ public class FreeRoomsFragment extends Fragment {
             @Override
             public void run() {
                 try {
-                    String html = FreeRoomDSB.refresh(getResources().openRawResource(R.raw.raum));
+                    String html = FreeRoomDSB.refresh(getResources().openRawResource(R.raw.rawpage));
                     MainActivity.mainActivity.runOnUiThread(() -> {
                         WebView webView = MainActivity.mainActivity.findViewById(R.id.freeroomview);
                         webView.setWebViewClient(new WebViewClient());
