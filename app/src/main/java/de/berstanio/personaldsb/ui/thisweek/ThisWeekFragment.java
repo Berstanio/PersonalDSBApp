@@ -1,5 +1,7 @@
 package de.berstanio.personaldsb.ui.thisweek;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -47,10 +49,13 @@ public class ThisWeekFragment extends Fragment {
         Thread thread = new Thread(){
             @Override
             public void run() {
+                String html;
+                SharedPreferences sharedPreferences = MainActivity.mainActivity.getSharedPreferences("plans", Context.MODE_PRIVATE);
                 try {
-                    String s = PersonalDSBLib.generateHTMLFile(week);
-                    MainActivity.mainActivity.runOnUiThread(() -> webView.loadDataWithBaseURL(null, s, "text/HTML", "UTF-8", null));
+                    html = PersonalDSBLib.generateHTMLFile(week);
+                    sharedPreferences.edit().putString("thisweek", html).apply();
                 } catch (DSBNotLoadableException | IOException | ClassNotFoundException e) {
+                    html = sharedPreferences.getString("thisweek", "");
                     e.printStackTrace();
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);
@@ -58,6 +63,9 @@ public class ThisWeekFragment extends Fragment {
                     Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
                     message.sendToTarget();
                 }
+                String finalHtml = html;
+                MainActivity.mainActivity.runOnUiThread(() -> webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
+
             }
         };
         thread.start();

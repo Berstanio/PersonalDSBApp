@@ -1,5 +1,7 @@
 package de.berstanio.personaldsb.ui.freerooms;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Message;
@@ -33,23 +35,18 @@ public class FreeRoomsFragment extends Fragment {
         Thread thread = new Thread(){
             @Override
             public void run() {
+                String html;
+                SharedPreferences sharedPreferences = MainActivity.mainActivity.getSharedPreferences("plans", Context.MODE_PRIVATE);
                 try {
-                    String html = FreeRoomDSB.refresh(getResources().openRawResource(R.raw.rawpage));
-                    MainActivity.mainActivity.runOnUiThread(() -> {
-                        WebView webView = MainActivity.mainActivity.findViewById(R.id.freeroomview);
-                        webView.setWebViewClient(new WebViewClient());
-                        if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-                            int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-                            switch (nightModeFlags) {
-                                case Configuration.UI_MODE_NIGHT_YES:
-                                case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                                    WebSettingsCompat.setForceDark(webView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
-                                    break;
-                            }
-                        }
-                        webView.loadDataWithBaseURL(null, html, "text/HTML", "UTF-8", null);
-                    });
+                    html = FreeRoomDSB.refresh(getResources().openRawResource(R.raw.rawpage));
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("freeroom", html);
+                    editor.apply();
+
+
                 } catch (IOException | JSONException | ClassNotFoundException e) {
+                    html = sharedPreferences.getString("freeroom", "");
                     e.printStackTrace();
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);
@@ -57,6 +54,22 @@ public class FreeRoomsFragment extends Fragment {
                     Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
                     message.sendToTarget();
                 }
+
+                String finalHtml = html;
+                MainActivity.mainActivity.runOnUiThread(() -> {
+                    WebView webView = MainActivity.mainActivity.findViewById(R.id.freeroomview);
+                    webView.setWebViewClient(new WebViewClient());
+                    if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                        int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                        switch (nightModeFlags) {
+                            case Configuration.UI_MODE_NIGHT_YES:
+                            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                                WebSettingsCompat.setForceDark(webView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                                break;
+                        }
+                    }
+                    webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null);
+                });
             }
         };
         thread.start();
