@@ -21,13 +21,13 @@ public class PersonalDSBLib {
     public static void init(InputStream rawHTML, File baseDir, boolean useExternServer) throws IOException, DSBNotLoadableException {
         setUseExternServer(useExternServer);
         try {
-            if (useExternServer){
+            if (isUseExternServer()){
                 Client.sendToServer(-1);
             }
         }catch (Exception e){
             setUseExternServer(false);
         }
-        if (!useExternServer) {
+        if (!isUseExternServer()) {
             try {
                 GHGParser.init(rawHTML, baseDir);
             } catch (Exception e) {
