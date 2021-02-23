@@ -3,6 +3,7 @@ package de.berstanio.personaldsblib;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,12 +26,16 @@ public class PersonalDSBLib {
                 Client.sendToServer(-1);
             }
         }catch (Exception e){
+            e.printStackTrace();
             setUseExternServer(false);
         }
         if (!isUseExternServer()) {
             try {
                 GHGParser.init(rawHTML, baseDir);
             } catch (Exception e) {
+                if (GHGParser.getUsers().size() != 0) {
+                    user = GHGParser.getUsers().get(0);
+                }
                 isLoading = false;
                 throw e;
             }
@@ -45,6 +50,10 @@ public class PersonalDSBLib {
         }
         isLoading = false;
     }
+
+    /*private boolean hasInetConnection(){
+        InetAddress.getByName("light.dsbcontrol.de").isReachable(500);
+    }*/
 
     public static JahresStundenPlan getJahresStundenPlan(int year) throws IOException, ClassNotFoundException {
         if (!isUseExternServer()){
