@@ -110,6 +110,10 @@ public class SettingsFragment extends Fragment {
         Button deletePlans = root.findViewById(R.id.buttonReload);
         deletePlans.setOnClickListener(v -> {
             PersonalDSBLib.reloadPlans();
+            SharedPreferences planPref = MainActivity.mainActivity.getSharedPreferences("plans", Context.MODE_PRIVATE);
+            planPref.edit().remove("nextweek").apply();
+            planPref.edit().remove("freeroom").apply();
+            planPref.edit().remove("thisweek").apply();
         });
 
         Button deleteUsers = root.findViewById(R.id.deleteUser);
