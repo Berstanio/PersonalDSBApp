@@ -68,7 +68,7 @@ public class SettingsFragment extends Fragment {
                 public void run() {
                     try {
                         PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), MainActivity.mainActivity.getFilesDir(), isChecked);
-                    } catch (IOException | DSBNotLoadableException e) {
+                    } catch (DSBNotLoadableException e) {
                         e.printStackTrace();
                         StringWriter sw = new StringWriter();
                         PrintWriter pw = new PrintWriter(sw);

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
 import de.berstanio.personaldsblib.FreeRoomDSB;
@@ -45,7 +46,7 @@ public class FreeRoomsFragment extends Fragment {
                     editor.apply();
 
 
-                } catch (IOException | JSONException | ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException | DSBNotLoadableException e) {
                     html = sharedPreferences.getString("freeroom", "");
                     e.printStackTrace();
                     StringWriter sw = new StringWriter();

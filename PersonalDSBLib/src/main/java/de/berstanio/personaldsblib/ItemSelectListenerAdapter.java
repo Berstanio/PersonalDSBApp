@@ -6,6 +6,9 @@ import java.util.List;
 import de.berstanio.ghgparser.CoreCourse;
 import de.berstanio.ghgparser.GHGParser;
 
+/**
+ * Eine Art Oberklasse, welche Regeln soll, wie beim Plan eintragen Klicks verarbeitet werden sollen. Sie ist aber nicht weiter relevant
+ */
 public class ItemSelectListenerAdapter {
 
     private int id;

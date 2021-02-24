@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     boolean externServer = sharedPreferences.getBoolean("ExternServer", true);
                     PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getFilesDir(), externServer);
-                } catch (IOException | DSBNotLoadableException e) {
+                } catch (DSBNotLoadableException e) {
                     e.printStackTrace();
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);
