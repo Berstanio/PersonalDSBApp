@@ -19,6 +19,7 @@ import de.berstanio.ghgparser.User;
 public class PersonalDSBLib {
 
     private static User user = null;
+Ko    //Status, ob das Programm noch beim laden des Users ist
     private static boolean isLoading = true;
     private static boolean useExternServer = true;
 
@@ -33,16 +34,19 @@ public class PersonalDSBLib {
         setUseExternServer(useExternServer);
         try {
             if (isUseExternServer()){
+                //TestAnfrage, ob der Server erreichbar ist
                 Client.sendToServer(-1);
             }
         }catch (Exception e){
             e.printStackTrace();
+            //Wenn nicht, wechsle in den lokalen Modus
             setUseExternServer(false);
         }
         if (!isUseExternServer()) {
             try {
                 GHGParser.init(rawHTML, baseDir);
             } catch (Exception e) {
+                //Wenn es einen Fehler beim init gab schauen, ob der User trotzdem geladen wurde. Meistens wäre ein Fehler dort aber Programmkritisch
                 if (GHGParser.getUsers().size() != 0) {
                     user = GHGParser.getUsers().get(0);
                 }
@@ -51,10 +55,12 @@ public class PersonalDSBLib {
             }
 
         }else {
+            //Wenn der Server genutzt wird, trotzdem ein Paar Felder setzen/User laden
             GHGParser.setBasedir(baseDir);
             ArrayList<User> users = User.loadUsers();
             GHGParser.setUsers(users);
         }
+        //Singleton-Instanz setzen
         if (GHGParser.getUsers().size() != 0) {
             user = GHGParser.getUsers().get(0);
         }

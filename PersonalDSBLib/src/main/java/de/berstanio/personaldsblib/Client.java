@@ -24,6 +24,7 @@ public class Client {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         for (Object o : objects) {
             if (o instanceof Integer){
+                //Ich weiß nicht genau, ob es dann anders gesendet wird
                 objectOutputStream.writeInt((int)o);
             }else {
                 objectOutputStream.writeObject(o);
