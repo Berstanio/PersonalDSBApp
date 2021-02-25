@@ -1,16 +1,13 @@
 package de.berstanio.personaldsblib;
 
 
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +25,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.ghgparser.DayOfWeek;
-import de.berstanio.ghgparser.GHGParser;
 
 /**
  * Klasse, welche das FreeRoom-HTML bereitstellt

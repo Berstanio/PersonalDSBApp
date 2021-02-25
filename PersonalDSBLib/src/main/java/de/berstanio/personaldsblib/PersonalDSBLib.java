@@ -3,14 +3,12 @@ package de.berstanio.personaldsblib;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.ghgparser.GHGParser;
 import de.berstanio.ghgparser.JahresStundenPlan;
-import de.berstanio.ghgparser.Plan;
 import de.berstanio.ghgparser.User;
 
 /**
@@ -20,7 +18,7 @@ public class PersonalDSBLib {
 
     private static User user = null;
     //Status, ob das Programm noch beim laden des Users ist
-    private static boolean isLoading = true;
+    private static volatile boolean isLoading = true;
     private static boolean useExternServer = true;
 
     /**
