@@ -19,7 +19,7 @@ import de.berstanio.ghgparser.User;
 public class PersonalDSBLib {
 
     private static User user = null;
-Ko    //Status, ob das Programm noch beim laden des Users ist
+    //Status, ob das Programm noch beim laden des Users ist
     private static boolean isLoading = true;
     private static boolean useExternServer = true;
 
