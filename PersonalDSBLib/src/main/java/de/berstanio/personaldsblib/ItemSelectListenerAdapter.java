@@ -14,8 +14,8 @@ public class ItemSelectListenerAdapter {
     private ArrayList<CoreCourse> remaining;
 
     public ItemSelectListenerAdapter(int id, ArrayList<CoreCourse> remaining){
-        setId(id);
-        setRemaining(remaining);
+        this.id = id;
+        this.remaining = remaining;
     }
 
     public ArrayList<CoreCourse> onItemSelected(CoreCourse coreCourse) {
