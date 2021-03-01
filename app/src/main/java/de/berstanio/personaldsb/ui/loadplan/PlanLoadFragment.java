@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -70,7 +71,7 @@ public class PlanLoadFragment extends Fragment {
                                     String s = DayOfWeek.of(i).name().substring(0, 2);
                                     for (int j = 1; j <= 8; j++) {
                                         String id = s + j;
-                                        Button button = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("button" + id,"id", MainActivity.mainActivity.getPackageName()));
+                                        Button button = root.findViewById(root.getResources().getIdentifier("button" + id,"id", root.getContext().getPackageName()));
                                         CoreCourse coreCourseTmp = null;
 
                                         int finalI = i;
@@ -88,7 +89,7 @@ public class PlanLoadFragment extends Fragment {
 
 
                                         CoreCourse finalCoreCourseTmp = coreCourseTmp;
-                                        MainActivity.mainActivity.runOnUiThread(() -> {
+                                        getActivity().runOnUiThread(() -> {
                                             if (finalCoreCourseTmp == null) {
                                                 button.setTextSize(10);
                                                 button.setTextColor(Color.TRANSPARENT);
@@ -115,7 +116,7 @@ public class PlanLoadFragment extends Fragment {
                                                         .filter(coreCourse -> coreCourse.getCourses().stream()
                                                         .anyMatch(course -> course.getDay().equals(day) && course.getLesson() == lesson))
                                                         .collect(Collectors.toList());
-                                                PopupMenu popupMenu = new PopupMenu(MainActivity.mainActivity, v);
+                                                PopupMenu popupMenu = new PopupMenu(root.getContext(), v);
                                                 coreCourseList.forEach(coreCourse -> popupMenu.getMenu().add(coreCourse.getCourseName() + " " + coreCourse.getTeacher()));
                                                 if (!button.getText().toString().equalsIgnoreCase("LHGW12 MAFF")){
                                                     popupMenu.getMenu().add("FREI");
@@ -126,7 +127,7 @@ public class PlanLoadFragment extends Fragment {
                                                         if (item.getTitle().toString().equalsIgnoreCase("FREI")){
                                                             coreCourse.getCourses().forEach(course -> {
                                                                         String s = course.getDay().name().substring(0, 2) + course.getLesson();
-                                                                        Button button = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("button" + s, "id", MainActivity.mainActivity.getPackageName()));
+                                                                        Button button = root.findViewById(root.getResources().getIdentifier("button" + s, "id", root.getContext().getPackageName()));
                                                                         button.setTextColor(Color.TRANSPARENT);
                                                                         button.setText("LHGW12 MAFF");
                                                                     });
@@ -138,7 +139,7 @@ public class PlanLoadFragment extends Fragment {
                                                         coreCourse = clicked;
                                                         clicked.getCourses().forEach(course -> {
                                                             String s = course.getDay().name().substring(0, 2) + course.getLesson();
-                                                            Button button = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("button" + s,"id", MainActivity.mainActivity.getPackageName()));
+                                                            Button button = root.findViewById(root.getResources().getIdentifier("button" + s,"id", root.getContext().getPackageName()));
 
                                                             button.setText(item.getTitle());
                                                             if (menuItem[1].contains("/")){
@@ -158,11 +159,7 @@ public class PlanLoadFragment extends Fragment {
                                 }
                             } catch (IOException | ClassNotFoundException e) {
                                 e.printStackTrace();
-                                StringWriter sw = new StringWriter();
-                                PrintWriter pw = new PrintWriter(sw);
-                                e.printStackTrace(pw);
-                                Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
-                                message.sendToTarget();
+                                MainActivity.showStackTrace(e, getActivity());
                                 return;
                             }
                             Button button = root.findViewById(R.id.createUser);
@@ -173,7 +170,7 @@ public class PlanLoadFragment extends Fragment {
                                     String s = DayOfWeek.of(i).name().substring(0, 2);
                                     for (int j = 1; j <= 8; j++) {
                                         String id = s + j;
-                                        Button planButton = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("button" + id, "id", MainActivity.mainActivity.getPackageName()));
+                                        Button planButton = root.findViewById(root.getResources().getIdentifier("button" + id, "id", root.getContext().getPackageName()));
                                         if (!planButton.getText().toString().equalsIgnoreCase("LHGW12 MAFF")){
                                             String[] menuItem = planButton.getText().toString().split(" ");
                                             CoreCourse clicked = jahresStundenPlan.getCoreCourses().stream()
@@ -190,7 +187,7 @@ public class PlanLoadFragment extends Fragment {
                                 User user = new User(coreCourses, year);
                                 PersonalDSBLib.setUser(user);
 
-                                MainActivity.mainActivity.navController.navigate(R.id.nav_thisweek);
+                                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.nav_thisweek);
                             });
                         }
                     };

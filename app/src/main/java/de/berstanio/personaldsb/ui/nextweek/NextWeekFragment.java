@@ -37,35 +37,22 @@ public class NextWeekFragment extends Fragment {
         Calendar calendar = Calendar.getInstance(Locale.GERMANY);
         int week = calendar.get(Calendar.WEEK_OF_YEAR) + 1;
         WebView webView  = root.findViewById(R.id.nextweek);
-        webView.setWebViewClient(new WebViewClient());
-        if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            switch (nightModeFlags) {
-                case Configuration.UI_MODE_NIGHT_YES:
-                case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                    WebSettingsCompat.setForceDark(webView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
-                    break;
-            }
-        }
+        MainActivity.initialiseWebView(webView);
         Thread thread = new Thread(){
             @Override
             public void run() {
                 String html;
-                SharedPreferences sharedPreferences = MainActivity.mainActivity.getSharedPreferences("plans", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = root.getContext().getSharedPreferences("plans", Context.MODE_PRIVATE);
                 try {
                     html = PersonalDSBLib.generateHTMLFile(week);
                     sharedPreferences.edit().putString("nextweek", html).apply();
                 } catch (DSBNotLoadableException | IOException | ClassNotFoundException e) {
                     html = sharedPreferences.getString("nextweek", "");
                     e.printStackTrace();
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw);
-                    e.printStackTrace(pw);
-                    Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
-                    message.sendToTarget();
+                    MainActivity.showStackTrace(e, getActivity());
                 }
                 String finalHtml = html;
-                MainActivity.mainActivity.runOnUiThread(() -> webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
+                getActivity().runOnUiThread(() -> webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
 
             }
         };

@@ -29,10 +29,10 @@ public class ItemSelectedListener implements AdapterView.OnItemSelectedListener 
         ArrayList<CoreCourse> remaining = getAdapter().onItemSelected(((CoreCourse)parent.getItemAtPosition(position)));
 
         if (!remaining.isEmpty()) {
-            TextView textView = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("textView" + getAdapter().getId(),"id", MainActivity.mainActivity.getPackageName()));
+            TextView textView = getRoot().findViewById(getRoot().getResources().getIdentifier("textView" + getAdapter().getId(),"id", getRoot().getContext().getPackageName()));
             textView.setText("Wähle jetzt deinen nächsten Kurs!");
 
-            Spinner spinner = MainActivity.mainActivity.findViewById(MainActivity.mainActivity.getResources().getIdentifier("spinner" + getAdapter().getId(),"id", MainActivity.mainActivity.getPackageName()));
+            Spinner spinner = getRoot().findViewById(getRoot().getResources().getIdentifier("spinner" + getAdapter().getId(),"id", getRoot().getContext().getPackageName()));
             List<CoreCourse> courses = (List<CoreCourse>) remaining.clone();
             ArrayAdapter<CoreCourse> englishAdapter = new ArrayAdapter<>(getRoot().getContext(), R.layout.spinner_center, courses);
             englishAdapter.setDropDownViewResource(R.layout.spinner_center);

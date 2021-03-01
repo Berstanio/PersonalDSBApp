@@ -38,7 +38,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
-        SharedPreferences sharedPreferences = MainActivity.mainActivity.getSharedPreferences("darkmode", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = root.getContext().getSharedPreferences("darkmode", Context.MODE_PRIVATE);
 
         Switch darkTheme = root.findViewById(R.id.darkThemeSwitch);
         boolean checked = sharedPreferences.getBoolean("DarkMode", false);
@@ -67,14 +67,10 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void run() {
                     try {
-                        PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), MainActivity.mainActivity.getFilesDir(), isChecked);
+                        PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getActivity().getFilesDir(), isChecked);
                     } catch (DSBNotLoadableException e) {
                         e.printStackTrace();
-                        StringWriter sw = new StringWriter();
-                        PrintWriter pw = new PrintWriter(sw);
-                        e.printStackTrace(pw);
-                        Message message = MainActivity.mainActivity.handler.obtainMessage(0, sw.toString());
-                        message.sendToTarget();
+                        MainActivity.showStackTrace(e, getActivity());
                     }
                 }
             };
@@ -86,7 +82,7 @@ public class SettingsFragment extends Fragment {
         dateSwitch.setChecked(date);
 
         dateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            NavigationView navigationView = MainActivity.mainActivity.findViewById(R.id.nav_view);
+            NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
             if (isChecked){
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
                 Calendar cal = Calendar.getInstance(Locale.GERMANY);
@@ -110,7 +106,7 @@ public class SettingsFragment extends Fragment {
         Button deletePlans = root.findViewById(R.id.buttonReload);
         deletePlans.setOnClickListener(v -> {
             PersonalDSBLib.reloadPlans();
-            SharedPreferences planPref = MainActivity.mainActivity.getSharedPreferences("plans", Context.MODE_PRIVATE);
+            SharedPreferences planPref = root.getContext().getSharedPreferences("plans", Context.MODE_PRIVATE);
             planPref.edit().remove("nextweek").apply();
             planPref.edit().remove("freeroom").apply();
             planPref.edit().remove("thisweek").apply();
