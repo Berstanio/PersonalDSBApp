@@ -25,6 +25,7 @@ import java.io.StringWriter;
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
+import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.FreeRoomDSB;
 
 public class FreeRoomsFragment extends Fragment {
@@ -33,7 +34,7 @@ public class FreeRoomsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_freerooms, container, false);
         WebView webView = root.findViewById(R.id.freeroomview);
-        MainActivity.initialiseWebView(webView);
+        Utils.initialiseWebView(webView);
 
         Thread thread = new Thread(){
             @Override
@@ -49,7 +50,7 @@ public class FreeRoomsFragment extends Fragment {
                 } catch (IOException | ClassNotFoundException | DSBNotLoadableException e) {
                     html = sharedPreferences.getString("freeroom", "");
                     e.printStackTrace();
-                    MainActivity.showStackTrace(e, getActivity());
+                    Utils.showStackTrace(e, getActivity());
                 }
 
                 String finalHtml = html;

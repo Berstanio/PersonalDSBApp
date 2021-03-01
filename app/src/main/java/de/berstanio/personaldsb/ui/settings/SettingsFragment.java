@@ -32,6 +32,7 @@ import java.util.Locale;
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
+import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.PersonalDSBLib;
 
 public class SettingsFragment extends Fragment {
@@ -70,7 +71,7 @@ public class SettingsFragment extends Fragment {
                         PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getActivity().getFilesDir(), isChecked);
                     } catch (DSBNotLoadableException e) {
                         e.printStackTrace();
-                        MainActivity.showStackTrace(e, getActivity());
+                        Utils.showStackTrace(e, getActivity());
                     }
                 }
             };

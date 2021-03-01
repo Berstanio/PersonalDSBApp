@@ -26,6 +26,7 @@ import java.util.Locale;
 import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
+import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.PersonalDSBLib;
 
 public class ThisWeekFragment extends Fragment {
@@ -36,7 +37,7 @@ public class ThisWeekFragment extends Fragment {
         Calendar calendar = Calendar.getInstance(Locale.GERMANY);
         int week = calendar.get(Calendar.WEEK_OF_YEAR);
         WebView webView  = root.findViewById(R.id.thisweek);
-        MainActivity.initialiseWebView(webView);
+        Utils.initialiseWebView(webView);
 
         Thread thread = new Thread(){
             @Override
@@ -49,7 +50,7 @@ public class ThisWeekFragment extends Fragment {
                 } catch (DSBNotLoadableException | IOException | ClassNotFoundException e) {
                     html = sharedPreferences.getString("thisweek", "");
                     e.printStackTrace();
-                    MainActivity.showStackTrace(e, getActivity());
+                    Utils.showStackTrace(e, getActivity());
                 }
                 String finalHtml = html;
                 getActivity().runOnUiThread(() -> webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));

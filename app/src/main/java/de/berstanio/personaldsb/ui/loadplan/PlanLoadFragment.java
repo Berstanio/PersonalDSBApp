@@ -38,6 +38,7 @@ import de.berstanio.ghgparser.User;
 import de.berstanio.personaldsb.ItemSelectedListener;
 import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
+import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.PersonalDSBLib;
 
 public class PlanLoadFragment extends Fragment {
@@ -159,7 +160,7 @@ public class PlanLoadFragment extends Fragment {
                                 }
                             } catch (IOException | ClassNotFoundException e) {
                                 e.printStackTrace();
-                                MainActivity.showStackTrace(e, getActivity());
+                                Utils.showStackTrace(e, getActivity());
                                 return;
                             }
                             Button button = root.findViewById(R.id.createUser);
