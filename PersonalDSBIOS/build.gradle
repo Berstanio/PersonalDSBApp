@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         jcenter()
-        mavenLocal()
     }
     dependencies {
         // Multi-OS Engine plugin
@@ -43,7 +42,7 @@ moe {
 dependencies {
     // Compile with 'jar' files in the project's 'lib' directory
     compile fileTree(dir: 'lib', include: '*.jar')
-    implementation 'de.berstanio:GHGSEK2DSBParser:1.1'
+    implementation 'de.berstanio:ghgsek2dsbparser:1.2'
     implementation project(":PersonalDSBLib")
 }
 

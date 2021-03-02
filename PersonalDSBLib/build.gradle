@@ -1,9 +1,6 @@
 plugins {
     id 'java-library'
-}
-
-repositories {
-    mavenLocal()
+    id 'maven'
 }
 
 java {
@@ -12,5 +9,5 @@ java {
 }
 
 dependencies {
-    implementation 'de.berstanio:GHGSEK2DSBParser:1.1'
+    implementation 'de.berstanio:ghgsek2dsbparser:1.2'
 }
