@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    signingConfigs {
+    /*<signingConfigs {
         debug {
             //storeFile file('C:\\Users\\sebas\\Dropbox\\keystore.jks')
             //storeFile file('/home/berstanio/IdeaProjects/keystore.jks')
@@ -12,7 +12,7 @@ android {
             keyAlias 'pdsb'
             keyPassword 'ImAs2019!'
         }
-    }
+    }*/
     compileSdkVersion 30
 
     defaultConfig {
