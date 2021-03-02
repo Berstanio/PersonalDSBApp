@@ -36,9 +36,9 @@ import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.PersonalDSBLib;
 
 public class SettingsFragment extends Fragment {
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
+
         SharedPreferences sharedPreferences = root.getContext().getSharedPreferences("darkmode", Context.MODE_PRIVATE);
 
         Switch darkTheme = root.findViewById(R.id.darkThemeSwitch);
@@ -68,10 +68,10 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void run() {
                     try {
-                        PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getActivity().getFilesDir(), isChecked);
+                        PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getContext().getFilesDir(), isChecked);
                     } catch (DSBNotLoadableException e) {
                         e.printStackTrace();
-                        Utils.showStackTrace(e, getActivity());
+                        Utils.showStackTrace(e, getContext());
                     }
                 }
             };

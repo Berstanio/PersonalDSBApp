@@ -6,6 +6,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Handler;
+import android.os.Looper;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -16,42 +18,40 @@ import androidx.webkit.WebViewFeature;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.logging.LogRecord;
 
 public class Utils {
 
-    public static void showStackTrace(Exception e, Activity activity){
+    public static void showStackTrace(Exception e, Context context){
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         e.printStackTrace(printWriter);
+        Handler handler = new Handler(Looper.getMainLooper());
 
-        activity.runOnUiThread(() -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        handler.post(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("Wenn du Internetzugang hast und das DSB funktioniert, lass dir den Fehlercode ausgeben und sende ihn Sebastian!");
             builder.setTitle("DSB Plan konnte leider nicht runtergeladen werden!");
             builder.setCancelable(true);
-            builder.setPositiveButton("Die App hat KEINEN Fehler!", (dialog, id) -> {
-
-            });
+            builder.setPositiveButton("Die App hat KEINEN Fehler!", (dialog, id) -> {});
 
             String s = stringWriter.toString();
             builder.setNegativeButton("Die App hat einen Fehler!", (dialog, id) -> {
-                TextView showText = new TextView(activity);
+                TextView showText = new TextView(context);
                 showText.setText(s);
                 showText.setTextIsSelectable(true);
 
-                AlertDialog.Builder error = new AlertDialog.Builder(activity);
+                AlertDialog.Builder error = new AlertDialog.Builder(context);
                 error.setView(showText);
                 error.setTitle("Sende den Fehler bitte an Sebastian!");
                 error.setCancelable(true);
                 error.setPositiveButton("Bitte kopier es in meinen Zwischenspeicher!", (dialog2, id2) -> {
-                    @SuppressLint("WrongConstant") ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                    @SuppressLint("WrongConstant") ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("PersonalDSB FehlerCode", s);
                     clipboard.setPrimaryClip(clip);
                 });
 
-                error.setNegativeButton("Ich kopiere es selber!", (dialog2, id2) -> {
-
-                });
+                error.setNegativeButton("Ich kopiere es selber!", (dialog2, id2) -> {});
                 error.create().show();
             });
 

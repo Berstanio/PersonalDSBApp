@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,11 +38,18 @@ public class FreeRoomsFragment extends Fragment {
         WebView webView = root.findViewById(R.id.freeroomview);
         Utils.initialiseWebView(webView);
 
+        return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
         Thread thread = new Thread(){
             @Override
             public void run() {
                 String html;
-                SharedPreferences sharedPreferences = root.getContext().getSharedPreferences("plans", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("plans", Context.MODE_PRIVATE);
                 try {
                     html = FreeRoomDSB.refresh(getResources().openRawResource(R.raw.rawpage));
 
@@ -54,11 +63,10 @@ public class FreeRoomsFragment extends Fragment {
                 }
 
                 String finalHtml = html;
-                getActivity().runOnUiThread(() -> webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(() -> ((WebView) getView().findViewById(R.id.freeroomview)).loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
             }
         };
         thread.start();
-
-        return root;
     }
 }

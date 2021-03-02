@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,19 +33,27 @@ import de.berstanio.personaldsblib.PersonalDSBLib;
 public class NextWeekFragment extends Fragment {
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_nextweek, container, false);
-        Calendar calendar = Calendar.getInstance(Locale.GERMANY);
-        int week = calendar.get(Calendar.WEEK_OF_YEAR) + 1;
+
         WebView webView  = root.findViewById(R.id.nextweek);
         Utils.initialiseWebView(webView);
-        Thread thread = new Thread(){
+
+        return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Calendar calendar = Calendar.getInstance(Locale.GERMANY);
+        int week = calendar.get(Calendar.WEEK_OF_YEAR) + 1;
+
+        Thread thread = new Thread() {
             @Override
             public void run() {
                 String html;
-                SharedPreferences sharedPreferences = root.getContext().getSharedPreferences("plans", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("plans", Context.MODE_PRIVATE);
                 try {
                     html = PersonalDSBLib.generateHTMLFile(week);
                     sharedPreferences.edit().putString("nextweek", html).apply();
@@ -53,11 +63,11 @@ public class NextWeekFragment extends Fragment {
                     Utils.showStackTrace(e, getActivity());
                 }
                 String finalHtml = html;
-                getActivity().runOnUiThread(() -> webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(() -> ((WebView) getView().findViewById(R.id.nextweek)).loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
 
             }
         };
         thread.start();
-        return root;
     }
 }

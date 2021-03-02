@@ -3,6 +3,8 @@ package de.berstanio.personaldsb.ui.loadplan;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -90,7 +92,8 @@ public class PlanLoadFragment extends Fragment {
 
 
                                         CoreCourse finalCoreCourseTmp = coreCourseTmp;
-                                        getActivity().runOnUiThread(() -> {
+                                        Handler handler = new Handler(Looper.getMainLooper());
+                                        handler.post(() -> {
                                             if (finalCoreCourseTmp == null) {
                                                 button.setTextSize(10);
                                                 button.setTextColor(Color.TRANSPARENT);
@@ -160,7 +163,7 @@ public class PlanLoadFragment extends Fragment {
                                 }
                             } catch (IOException | ClassNotFoundException e) {
                                 e.printStackTrace();
-                                Utils.showStackTrace(e, getActivity());
+                                Utils.showStackTrace(e, getContext());
                                 return;
                             }
                             Button button = root.findViewById(R.id.createUser);

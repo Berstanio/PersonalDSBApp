@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        //Bennenung irreführend, bei Umbennenung sollten aber allte Einstellungen migriert werden
         SharedPreferences sharedPreferences = getSharedPreferences("darkmode", Context.MODE_PRIVATE);
         Thread thread = new Thread(){
             @Override
@@ -77,29 +78,16 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Utils.showStackTrace(e, MainActivity.this);
                 }
-                if (PersonalDSBLib.getUser() == null){
-                    runOnUiThread(() -> {
-                        navController.navigate(R.id.nav_readplan);
-                    });
-                }
             }
         };
         thread.start();
 
-        Thread night = new Thread(){
-            @Override
-            public void run() {
-                while (thread.isAlive()){
+        if (sharedPreferences.getBoolean("DarkMode", false)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
-                }
-                if (sharedPreferences.getBoolean("DarkMode", false)){
-                    runOnUiThread(() -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES));
-                }else {
-                    runOnUiThread(() -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO));
-                }
-            }
-        };
-        night.start();
         if (sharedPreferences.getBoolean("DateSwitch", false)){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
             Calendar cal = Calendar.getInstance(Locale.GERMANY);
@@ -109,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
             cal.add(Calendar.WEEK_OF_YEAR, 1);
             navigationView.getMenu().getItem(1).setTitle(simpleDateFormat.format(cal.getTime()));
+        }
+
+        if (PersonalDSBLib.getUser() == null){
+            navController.navigate(R.id.nav_readplan);
         }
     }
 
