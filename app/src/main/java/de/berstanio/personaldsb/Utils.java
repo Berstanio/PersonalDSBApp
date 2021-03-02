@@ -1,7 +1,6 @@
 package de.berstanio.personaldsb;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -18,7 +17,6 @@ import androidx.webkit.WebViewFeature;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.logging.LogRecord;
 
 public class Utils {
 

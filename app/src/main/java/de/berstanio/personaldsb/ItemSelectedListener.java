@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.berstanio.ghgparser.CoreCourse;
-import de.berstanio.ghgparser.GHGParser;
 import de.berstanio.personaldsblib.ItemSelectListenerAdapter;
 
 public class ItemSelectedListener implements AdapterView.OnItemSelectedListener {

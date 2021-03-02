@@ -2,30 +2,20 @@ package de.berstanio.personaldsb.ui.freerooms;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.webkit.WebSettingsCompat;
-import androidx.webkit.WebViewFeature;
-
-import org.json.JSONException;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import de.berstanio.ghgparser.DSBNotLoadableException;
-import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
 import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.FreeRoomDSB;

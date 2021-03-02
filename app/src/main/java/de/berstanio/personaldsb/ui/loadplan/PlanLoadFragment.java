@@ -1,12 +1,9 @@
 package de.berstanio.personaldsb.ui.loadplan;
 
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,22 +20,14 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import de.berstanio.ghgparser.CoreCourse;
-import de.berstanio.ghgparser.Course;
-import de.berstanio.ghgparser.DSBNotLoadableException;
 import de.berstanio.ghgparser.DayOfWeek;
-import de.berstanio.ghgparser.GHGParser;
 import de.berstanio.ghgparser.JahresStundenPlan;
 import de.berstanio.ghgparser.User;
-import de.berstanio.personaldsb.ItemSelectedListener;
-import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
 import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.PersonalDSBLib;

@@ -1,13 +1,8 @@
 package de.berstanio.personaldsb.ui.settings;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +15,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
 import de.berstanio.ghgparser.DSBNotLoadableException;
-import de.berstanio.personaldsb.MainActivity;
 import de.berstanio.personaldsb.R;
 import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.PersonalDSBLib;
