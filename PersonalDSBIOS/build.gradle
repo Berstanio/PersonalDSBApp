@@ -2,6 +2,7 @@ buildscript {
     repositories {
         jcenter()
     }
+
     dependencies {
         // Multi-OS Engine plugin
         classpath group: 'org.multi-os-engine.community', name: 'moe-gradle', version: '1.7.+'

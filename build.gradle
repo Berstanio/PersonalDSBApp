@@ -17,6 +17,13 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url = uri("https://maven.pkg.github.com/Berstanio/GHGSEK2DSBParser")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
     }
 }
 
