@@ -1,0 +1,36 @@
+
+name: CI-test
+
+on:
+  pull_request:
+    branches:
+      - master
+      - devel
+
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Build with Gradle
+        id: build
+        run: ./gradlew build
+        env:
+          TOKEN: ${{ secrets.PACKAGES_KEY  }}
+
+      - name: Build Release AAB
+        id: buildRelease
+        run: ./gradlew bundleRelease
+        env:
+          TOKEN: ${{ secrets.PACKAGES_KEY  }}
