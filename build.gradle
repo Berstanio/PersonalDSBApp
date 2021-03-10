@@ -21,7 +21,7 @@ allprojects {
             url = uri("https://maven.pkg.github.com/Berstanio/GHGSEK2DSBParser")
             credentials {
                 username = "Berstanio"
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                password = "0d0178f0bd0e53160bb0aeed882cc5697fc7641e"
             }
         }
     }
