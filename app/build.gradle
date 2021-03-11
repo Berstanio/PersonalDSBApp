@@ -19,7 +19,7 @@ android {
         applicationId "de.berstanio.personaldsb"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 15
+        versionCode 16
         versionName "2.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
