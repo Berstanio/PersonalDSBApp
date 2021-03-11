@@ -30,7 +30,9 @@ jobs:
 
       - name: Build with Gradle
         id: build
-        run: ./gradlew build
+        run:
+          cat build.gradle
+          ./gradlew build
         env:
           TOKEN: ${{ secrets.PACKAGES_KEY  }}
 
