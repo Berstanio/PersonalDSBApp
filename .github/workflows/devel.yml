@@ -34,12 +34,14 @@ jobs:
           ./gradlew build
         env:
           TOKEN: ${{ secrets.PACKAGES_KEY  }}
+          repotoken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Release AAB
         id: buildRelease
         run: ./gradlew bundleRelease
         env:
           TOKEN: ${{ secrets.PACKAGES_KEY  }}
+          repotoken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Sign AAB
         id: sign
