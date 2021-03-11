@@ -18,6 +18,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -56,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try {
                     boolean externServer = sharedPreferences.getBoolean("ExternServer", true);
-                    PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getFilesDir(), externServer);
+                    File file = new File(getFilesDir() + "/appdaten/");
+                    file.mkdir();
+                    PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), file, externServer);
                 } catch (DSBNotLoadableException e) {
                     e.printStackTrace();
                     Utils.showStackTrace(e, MainActivity.this);
