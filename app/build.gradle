@@ -16,7 +16,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "de.berstanio.personaldsbtest"
+        applicationId "de.berstanio.personaldsb"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 18
