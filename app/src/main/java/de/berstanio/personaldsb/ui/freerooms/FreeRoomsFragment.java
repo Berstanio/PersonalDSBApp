@@ -21,12 +21,16 @@ import de.berstanio.personaldsb.Utils;
 import de.berstanio.personaldsblib.FreeRoomDSB;
 
 public class FreeRoomsFragment extends Fragment {
+
+    private WebView webView;
     
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_freerooms, container, false);
         WebView webView = root.findViewById(R.id.freeroomview);
         Utils.initialiseWebView(webView);
+
+        this.webView = webView;
 
         return root;
     }
@@ -54,7 +58,7 @@ public class FreeRoomsFragment extends Fragment {
 
                 String finalHtml = html;
                 Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(() -> ((WebView) getView().findViewById(R.id.freeroomview)).loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
+                handler.post(() -> webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
             }
         };
         thread.start();

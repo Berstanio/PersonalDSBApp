@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -57,7 +58,9 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void run() {
                     try {
-                        PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), getContext().getFilesDir(), isChecked);
+                        File file = new File(getContext().getFilesDir() + "/appdaten/");
+                        file.mkdir();
+                        PersonalDSBLib.init(getResources().openRawResource(R.raw.rawpage), file, isChecked);
                     } catch (DSBNotLoadableException e) {
                         e.printStackTrace();
                         Utils.showStackTrace(e, getContext());

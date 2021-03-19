@@ -24,12 +24,16 @@ import de.berstanio.personaldsblib.PersonalDSBLib;
 
 public class ThisWeekFragment extends Fragment {
 
+    private WebView webView;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_thisweek, container, false);
 
         WebView webView = root.findViewById(R.id.thisweek);
         Utils.initialiseWebView(webView);
+
+        this.webView = webView;
 
         return root;
     }
@@ -55,7 +59,7 @@ public class ThisWeekFragment extends Fragment {
                 }
                 String finalHtml = html;
                 Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(() -> ((WebView) getView().findViewById(R.id.thisweek)).loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
+                handler.post(() -> webView.loadDataWithBaseURL(null, finalHtml, "text/HTML", "UTF-8", null));
 
             }
         };
