@@ -2,11 +2,16 @@ buildscript {
     repositories {
         jcenter()
         mavenLocal()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
-
     dependencies {
         // Multi-OS Engine plugin
-        classpath group: 'org.multi-os-engine.community', name: 'moe-gradle', version: '2.0.0-SNAPSHOT'
+        classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '2.0.0-SNAPSHOT'
+    }
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
     }
 }
 
@@ -44,7 +49,7 @@ moe {
 dependencies {
     // Compile with 'jar' files in the project's 'lib' directory
     compile fileTree(dir: 'lib', include: '*.jar')
-    implementation 'de.berstanio:ghgsek2dsbparser:1.2'
+    implementation 'com.github.Berstanio:ghgsek2dsbparser:1.2'
     implementation project(":PersonalDSBLib")
 }
 

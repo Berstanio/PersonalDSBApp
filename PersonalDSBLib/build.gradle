@@ -21,5 +21,5 @@ java {
 }
 
 dependencies {
-    implementation 'de.berstanio:ghgsek2dsbparser:1.2'
+    implementation 'com.github.Berstanio:ghgsek2dsbparser:1.2'
 }
