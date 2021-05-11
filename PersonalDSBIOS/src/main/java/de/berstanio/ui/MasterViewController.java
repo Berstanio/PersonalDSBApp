@@ -7,24 +7,34 @@ import org.moe.natj.general.ann.Owned;
 import org.moe.natj.general.ann.RegisterOnStartup;
 import org.moe.natj.objc.ObjCRuntime;
 import org.moe.natj.objc.SEL;
+import org.moe.natj.objc.ann.IBOutlet;
 import org.moe.natj.objc.ann.ObjCClassName;
+import org.moe.natj.objc.ann.Property;
 import org.moe.natj.objc.ann.Selector;
 import org.moe.natj.objc.map.ObjCObjectMapper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import apple.foundation.NSArray;
 import apple.foundation.NSIndexPath;
+import apple.foundation.NSURL;
+import apple.foundation.NSURLRequest;
 import apple.uikit.UIBarButtonItem;
 import apple.uikit.UINavigationController;
 import apple.uikit.UIStoryboardSegue;
 import apple.uikit.UITableView;
 import apple.uikit.UITableViewCell;
 import apple.uikit.UITableViewController;
+import apple.uikit.UIWebView;
 import apple.uikit.enums.UIBarButtonSystemItem;
 import apple.uikit.enums.UITableViewCellEditingStyle;
 import apple.uikit.enums.UITableViewRowAnimation;
+import de.berstanio.ghgparser.DSBNotLoadableException;
+import de.berstanio.personaldsblib.PersonalDSBLib;
 
 @org.moe.natj.general.ann.Runtime(ObjCRuntime.class)
 @ObjCClassName("MasterViewController")
@@ -49,15 +59,19 @@ public class MasterViewController extends UITableViewController {
     @Override
     public void viewDidLoad() {
         super.viewDidLoad();
+        try {
+            PersonalDSBLib.init(ClassLoader.getSystemClassLoader().getResourceAsStream("rawPage.htm"), new File(""), true);
+        } catch (DSBNotLoadableException e) {
+            e.printStackTrace();
+        }
         // Do any additional setup after loading the view, typically from a nib.
         navigationItem().setLeftBarButtonItem(editButtonItem());
 
-        UIBarButtonItem addButton = UIBarButtonItem.alloc()
-                .initWithBarButtonSystemItemTargetAction(UIBarButtonSystemItem.Add, this, new SEL
-                        ("insertNewObject:"));
+        UIBarButtonItem addButton = UIBarButtonItem.alloc().initWithBarButtonSystemItemTargetAction(UIBarButtonSystemItem.Add, this, new SEL("insertNewObject:"));
         navigationItem().setRightBarButtonItem(addButton);
-        detailViewController = (DetailViewController) ((UINavigationController)
-                splitViewController().viewControllers().lastObject()).topViewController();
+
+
+        //detailViewController = (DetailViewController) ((UINavigationController) splitViewController().viewControllers().lastObject()).topViewController();
     }
 
     @Override
@@ -73,6 +87,8 @@ public class MasterViewController extends UITableViewController {
         tableView().insertRowsAtIndexPathsWithRowAnimation((NSArray<? extends NSIndexPath>)
                 NSArray.arrayWithObject(indexPath), UITableViewRowAnimation.Automatic);
     }
+
+
 
     @Override
     public void prepareForSegueSender(UIStoryboardSegue segue, @Mapped(ObjCObjectMapper.class)

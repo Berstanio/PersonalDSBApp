@@ -1,7 +1,18 @@
 package de.berstanio.ui;
 
+import apple.foundation.NSURL;
+import apple.foundation.NSURLRequest;
 import apple.uikit.UILabel;
 import apple.uikit.UIViewController;
+import apple.uikit.UIWebView;
+import apple.uikit.enums.UIScrollViewContentInsetAdjustmentBehavior;
+import apple.webkit.WKWebView;
+import apple.webkit.protocol.WKNavigationDelegate;
+import apple.webkit.protocol.WKUIDelegate;
+import de.berstanio.ghgparser.GHGParser;
+import de.berstanio.personaldsblib.FreeRoomDSB;
+import de.berstanio.personaldsblib.PersonalDSBLib;
+
 import org.moe.natj.general.Pointer;
 import org.moe.natj.general.ann.Owned;
 import org.moe.natj.general.ann.RegisterOnStartup;
@@ -45,16 +56,17 @@ public class DetailViewController extends UIViewController {
     }
 
     private void configureView() {
-        if (detailItem != null && detailDescriptionLabel() != null) {
-            detailDescriptionLabel().setText(detailItem);
-        }
+        WKWebView webView = WKWebView.alloc();
+        webView.init();
+        //webView.setUIDelegate(new WKUIDelegate() {});
+        //webView.setNavigationDelegate(new WKNavigationDelegate() {});
+        setView(webView);
+        webView.loadHTMLStringBaseURL("<html><body><p>Hello!</p></body></html>", null);
+        //webView.setAllowsBackForwardNavigationGestures(false);
+        //webView.scrollView().setBounces(false);
+        //webView.scrollView().setContentInsetAdjustmentBehavior(UIScrollViewContentInsetAdjustmentBehavior.Never);
+
     }
 
-    @Property
-    @IBOutlet
-    @Selector("detailDescriptionLabel")
-    public native UILabel detailDescriptionLabel();
 
-    @Selector("setDetailDescriptionLabel:")
-    public native void setDetailDescriptionLabel(UILabel detailDescriptionLabel);
 }
